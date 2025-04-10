@@ -2,6 +2,7 @@
 /local/
 /.idea/
 /data/
+*.txt
 
 # Created by https://www.toptal.com/developers/gitignore/api/go,dotenv,ssh,gpg,compressed,certificates,linux,macos,windows,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=go,dotenv,ssh,gpg,compressed,certificates,linux,macos,windows,visualstudiocode
