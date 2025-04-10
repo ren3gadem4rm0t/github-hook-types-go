@@ -2,7 +2,7 @@ package github
 
 import (
 	"crypto/hmac"
-	"crypto/sha1"
+	"crypto/sha1" // #nosec G505 - keeping for backward compatibility with GitHub API
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -296,6 +296,7 @@ func ValidateSignature(r *http.Request, payload []byte, secret string) error {
 			return fmt.Errorf("error decoding SHA-1 signature: %v", err)
 		}
 
+		// #nosec G401 - keeping SHA-1 for backward compatibility with GitHub API
 		mac := hmac.New(sha1.New, secretBytes)
 		_, _ = mac.Write(payload)
 		expectedMAC := mac.Sum(nil)

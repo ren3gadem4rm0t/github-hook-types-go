@@ -16,7 +16,7 @@ lint:
 
 ast:
 	@echo "Running security scan..."
-	gosec ./...
+	gosec  -exclude-dir=examples . ./webhook  ./...
 
 fmt:
 	@gofmt -s -w .
