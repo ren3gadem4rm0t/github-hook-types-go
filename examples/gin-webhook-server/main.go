@@ -197,6 +197,8 @@ func HandleGithubWebhook(c *gin.Context) {
 		parsedPayload = &github.PushPayload{}
 	case github.ReleaseEvent:
 		parsedPayload = &github.ReleasePayload{}
+	case github.RegistryPackageEvent:
+		parsedPayload = &github.RegistryPackagePayload{}
 	case github.RepositoryDispatchEvent:
 		parsedPayload = &github.RepositoryDispatchPayload{}
 	case github.RepositoryEvent:
@@ -250,6 +252,32 @@ func HandleGithubWebhook(c *gin.Context) {
 			Str("after", webhook.After).
 			Int("commits", len(webhook.Commits)).
 			Msg("Push event received")
+
+	case *github.CheckRunPayload:
+		conclusion := ""
+		if webhook.CheckRun.Conclusion != nil {
+			conclusion = *webhook.CheckRun.Conclusion
+		}
+		log.Info().
+			Str("action", webhook.Action).
+			Str("name", webhook.CheckRun.Name).
+			Str("status", webhook.CheckRun.Status).
+			Str("conclusion", conclusion).
+			Str("repo", webhook.Repository.FullName).
+			Msg("Check run event received")
+
+	case *github.CheckSuitePayload:
+		conclusion := ""
+		if webhook.CheckSuite.Conclusion != nil {
+			conclusion = *webhook.CheckSuite.Conclusion
+		}
+		log.Info().
+			Str("action", webhook.Action).
+			Str("status", webhook.CheckSuite.Status).
+			Str("conclusion", conclusion).
+			Str("head_branch", webhook.CheckSuite.HeadBranch).
+			Str("repo", webhook.Repository.FullName).
+			Msg("Check suite event received")
 
 	case *github.IssuesPayload:
 		log.Info().
@@ -533,8 +561,31 @@ func HandleGithubWebhook(c *gin.Context) {
 			Str("repo", webhook.Repository.FullName).
 			Msg("Workflow run event received")
 
+	case *github.RegistryPackagePayload:
+		log.Info().
+			Str("action", webhook.Action).
+			Str("package_name", webhook.RegistryPackage.Name).
+			Str("package_type", webhook.RegistryPackage.PackageType).
+			Str("version", webhook.RegistryPackage.PackageVersion.Version).
+			Str("owner", webhook.RegistryPackage.Owner.Login).
+			Msg("Registry package event received")
+
+	case *github.RepositoryDispatchPayload:
+		clientPayload := "null"
+		if webhook.ClientPayload != nil {
+			clientPayload = string(webhook.ClientPayload)
+		}
+		log.Info().
+			Str("action", webhook.Action).
+			Str("branch", webhook.Branch).
+			Str("client_payload", clientPayload).
+			Str("repo", webhook.Repository.FullName).
+			Msg("Repository dispatch event received")
+
 	default:
-		log.Info().Str("event_type", eventType).Msg("Unhandled event type")
+		log.Warn().
+			Str("event_type", eventType).
+			Msg("Unhandled event type. Consider adding a specific handler for this event type in the main.go switch statement.")
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "success", "event": eventType, "delivery_id": deliveryID})
