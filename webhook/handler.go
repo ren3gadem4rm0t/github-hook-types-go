@@ -150,7 +150,7 @@ func (h *Handler) ProcessWebhook(r *http.Request) (*github.WebhookEvent, error) 
 	}
 
 	// Parse the payload based on the event type
-	var parsedPayload interface{}
+	var parsedPayload any
 	switch eventType {
 	case github.CheckRunEvent:
 		parsedPayload = &github.CheckRunPayload{}
