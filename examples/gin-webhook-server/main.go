@@ -345,6 +345,31 @@ func HandleGithubWebhook(c *gin.Context) {
 			Str("repo", webhook.Repository.FullName).
 			Msg("Delete event received")
 
+	case *github.DeployKeyPayload:
+		log.Info().
+			Int64("key_id", webhook.Key.ID).
+			Str("title", webhook.Key.Title).
+			Msg("Deploy key event received")
+
+	case *github.DeploymentPayload:
+		log.Info().
+			Str("environment", webhook.Deployment.Environment).
+			Str("sha", webhook.Deployment.SHA).
+			Str("ref", webhook.Deployment.Ref).
+			Str("task", webhook.Deployment.Task).
+			Str("description", webhook.Deployment.Description).
+			Str("repo", webhook.Repository.FullName).
+			Msg("Deployment event received")
+
+	case *github.DeploymentStatusPayload:
+		log.Info().
+			Str("state", webhook.DeploymentStatus.State).
+			Str("environment", webhook.DeploymentStatus.Environment).
+			Str("description", webhook.DeploymentStatus.Description).
+			Int64("deployment_id", webhook.DeploymentStatus.ID).
+			Str("repo", webhook.Repository.FullName).
+			Msg("Deployment status event received")
+
 	case *github.ForkPayload:
 		log.Info().
 			Str("forked_repo", webhook.Repository.FullName).
