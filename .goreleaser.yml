@@ -1,0 +1,21 @@
+project_name: github-hook-types-go
+release:
+  github:
+    owner: ren3gadem4rm0t
+    name: github-hook-types-go
+builds:
+  - skip: true
+archives:
+  - format: tar.gz
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^Merge pull request"
+      - "^Merge branch"
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"

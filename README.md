@@ -1,3 +1,11 @@
+
+[![Build Status](https://github.com/ren3gadem4rm0t/github-hook-types-go/actions/workflows/ci.yml/badge.svg)](https://github.com/ren3gadem4rm0t/github-hook-types-go/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/ren3gadem4rm0t/github-hook-types-go?sort=semver)](https://github.com/ren3gadem4rm0t/github-hook-types-go/releases)
+[![GitHub issues](https://img.shields.io/github/issues/ren3gadem4rm0t/github-hook-types-go)](https://github.com/ren3gadem4rm0t/github-hook-types-go/issues)
+[![GitHub stars](https://img.shields.io/github/stars/ren3gadem4rm0t/github-hook-types-go?style=social)](https://github.com/ren3gadem4rm0t/github-hook-types-go/stargazers)
+<!-- [![Go Report Card](https://goreportcard.com/badge/github.com/ren3gadem4rm0t/github-hook-types-go)](https://goreportcard.com/report/github.com/ren3gadem4rm0t/github-hook-types-go) -->
+
 # GitHub Webhook Types for Go
 
 A comprehensive Go library providing strongly-typed definitions for all GitHub webhook events and payloads. This library helps developers build applications that receive and process GitHub webhook events with proper type safety and full IntelliSense support.
@@ -186,4 +194,4 @@ This library supports all GitHub webhook event types, including:
 
 ## License
 
-MIT
+[MIT](LICENSE)
