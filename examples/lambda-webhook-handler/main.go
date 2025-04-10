@@ -117,7 +117,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (Respon
 	case github.ForkEvent:
 		parsedPayload = &github.ForkPayload{}
 	case github.GitHubAppAuthorizationEvent:
-		parsedPayload = &github.GitHubAppAuthorizationPayload{}
+		parsedPayload = &github.AppAuthorizationPayload{}
 	case github.GollumEvent:
 		parsedPayload = &github.GollumPayload{}
 	case github.InstallationEvent:

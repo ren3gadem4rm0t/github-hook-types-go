@@ -65,7 +65,7 @@ type SponsorshipPayload struct {
 // StarPayload represents the webhook payload sent for star events.
 type StarPayload struct {
 	WebhookPayload
-	Starred_at *Timestamp `json:"starred_at"`
+	StarredAt *Timestamp `json:"starred_at"`
 }
 
 // StatusPayload represents the webhook payload sent for status events.

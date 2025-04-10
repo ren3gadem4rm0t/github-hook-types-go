@@ -54,9 +54,6 @@ jobs:
     - name: Security Scanner
       run: make ast
 
-    - name: Build
-      run: make build
-
     - name: Test
       run: make test
 

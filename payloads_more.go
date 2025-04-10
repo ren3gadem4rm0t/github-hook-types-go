@@ -213,8 +213,8 @@ type ForkPayload struct {
 	Forkee Repository `json:"forkee"`
 }
 
-// GitHubAppAuthorizationPayload represents the webhook payload sent for github_app_authorization events.
-type GitHubAppAuthorizationPayload struct {
+// AppAuthorizationPayload represents the webhook payload sent for github_app_authorization events.
+type AppAuthorizationPayload struct {
 	WebhookPayload
 }
 

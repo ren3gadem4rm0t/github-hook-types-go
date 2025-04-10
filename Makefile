@@ -3,7 +3,8 @@ VERSION  := 0.1.0
 
 SHELL := /bin/bash
 
-.PHONY: test lint sec clean major minor patch release
+.PHONY: test lint sec clean major minor patch release coverage coverage-ci vet staticcheck ast fmt check-fmt
+.DEFAULT_GOAL := help
 
 test:
 	@echo "Running tests..."
@@ -13,9 +14,33 @@ lint:
 	@echo "Running golangci-lint..."
 	golangci-lint run
 
-sec:
+ast:
 	@echo "Running security scan..."
 	gosec ./...
+
+fmt:
+	@gofmt -s -w .
+
+check-fmt:
+	@gofmt -l . | tee /dev/stderr | grep -q '^' && echo "Code is not formatted" && exit 1 || echo "Code is formatted"
+
+coverage:
+	@mkdir -p coverage
+	@go test -coverprofile=coverage/coverage.out ./... && \
+	go tool cover -func=coverage/coverage.out && \
+	go tool cover -html=coverage/coverage.out -o coverage/coverage.html; \
+	open coverage/coverage.html
+
+coverage-ci:
+	@mkdir -p coverage
+	@go test -coverprofile=coverage/coverage.out ./... && \
+	go tool cover -func=coverage/coverage.out
+
+vet:
+	@go vet ./...
+
+staticcheck:
+	@staticcheck ./...
 
 clean:
 	@echo "Cleaning up..."

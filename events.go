@@ -1,9 +1,16 @@
 package github
 
 import (
+	"crypto/hmac"
+	"crypto/sha1"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 )
 
 // WebhookEventType represents a GitHub webhook event type.
@@ -138,7 +145,7 @@ func ParseWebhook(r *http.Request) (*WebhookEvent, error) {
 	case ForkEvent:
 		payload = new(ForkPayload)
 	case GitHubAppAuthorizationEvent:
-		payload = new(GitHubAppAuthorizationPayload)
+		payload = new(AppAuthorizationPayload)
 	case GollumEvent:
 		payload = new(GollumPayload)
 	case InstallationEvent:
@@ -240,7 +247,65 @@ func ParseWebhook(r *http.Request) (*WebhookEvent, error) {
 // ValidateSignature validates the webhook signature against the payload and secret.
 // It supports both SHA-1 and SHA-256 signatures.
 func ValidateSignature(r *http.Request, payload []byte, secret string) error {
-	// Implementation would go here but is beyond the scope of this basic implementation
-	// A proper implementation would verify both X-Hub-Signature and X-Hub-Signature-256 headers
-	return nil
+	if secret == "" {
+		// No secret configured, so signature validation is skipped
+		return nil
+	}
+
+	secretBytes := []byte(secret)
+
+	// Try SHA-256 first (preferred)
+	signature256 := r.Header.Get(WebhookSignatureHeader256)
+	if signature256 != "" {
+		// Validate the SHA-256 signature
+		if !strings.HasPrefix(signature256, "sha256=") {
+			return errors.New("invalid SHA-256 signature format")
+		}
+
+		sig, err := hex.DecodeString(strings.TrimPrefix(signature256, "sha256="))
+		if err != nil {
+			return fmt.Errorf("error decoding SHA-256 signature: %v", err)
+		}
+
+		mac := hmac.New(sha256.New, secretBytes)
+		_, _ = mac.Write(payload)
+		expectedMAC := mac.Sum(nil)
+
+		if !hmac.Equal(sig, expectedMAC) {
+			return errors.New("SHA-256 signature validation failed")
+		}
+
+		return nil
+	}
+
+	// Fall back to SHA-1 if SHA-256 is not present
+	signature := r.Header.Get(WebhookSignatureHeader)
+	if signature != "" {
+		// Log a warning about SHA-1 usage
+		// We use fmt.Fprintf to stderr since this is a library function and we don't want to
+		// enforce a specific logging package on users
+		fmt.Fprintf(os.Stderr, "WARNING: Using deprecated SHA-1 signature validation. Configure your webhook to use SHA-256.\n")
+
+		// Validate the SHA-1 signature
+		if !strings.HasPrefix(signature, "sha1=") {
+			return errors.New("invalid SHA-1 signature format")
+		}
+
+		sig, err := hex.DecodeString(strings.TrimPrefix(signature, "sha1="))
+		if err != nil {
+			return fmt.Errorf("error decoding SHA-1 signature: %v", err)
+		}
+
+		mac := hmac.New(sha1.New, secretBytes)
+		_, _ = mac.Write(payload)
+		expectedMAC := mac.Sum(nil)
+
+		if !hmac.Equal(sig, expectedMAC) {
+			return errors.New("SHA-1 signature validation failed")
+		}
+
+		return nil
+	}
+
+	return errors.New("missing signature headers")
 }

@@ -1,3 +1,6 @@
+// Package main provides a simple HTTP server that listens for GitHub webhook events.
+// It demonstrates how to use the github-hook-types-go library to validate, parse,
+// and handle webhook payloads.
 package main
 
 import (
