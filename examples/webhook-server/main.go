@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/ren3gadem4rm0t/github-hook-types-go"
 	"github.com/ren3gadem4rm0t/github-hook-types-go/webhook"
@@ -25,8 +26,17 @@ func main() {
 		port = "3000"
 	}
 
+	// Create a server with timeouts
+	server := &http.Server{
+		Addr:              ":" + port,
+		ReadHeaderTimeout: 20 * time.Second,
+		ReadTimeout:       1 * time.Minute,
+		WriteTimeout:      2 * time.Minute,
+		IdleTimeout:       5 * time.Minute,
+	}
+
 	log.Printf("Server starting on port %s...\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(server.ListenAndServe())
 }
 
 // handleGitHubEvent processes GitHub webhook events

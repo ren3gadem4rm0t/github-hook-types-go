@@ -76,7 +76,9 @@ func GithubWebhookMiddleware(secret string) gin.HandlerFunc {
 		}
 
 		// Close the body and reset it for downstream handlers
-		c.Request.Body.Close()
+		if err := c.Request.Body.Close(); err != nil {
+			log.Error().Err(err).Msg("Failed to close request body")
+		}
 		c.Request.Body = io.NopCloser(bytes.NewBuffer(body))
 
 		// Validate signature

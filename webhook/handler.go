@@ -3,13 +3,14 @@ package webhook
 
 import (
 	"crypto/hmac"
-	"crypto/sha1"
+	"crypto/sha1" // #nosec G505 - keeping for backward compatibility with GitHub API
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 
@@ -18,6 +19,7 @@ import (
 
 const (
 	// SignatureHeader is the GitHub header containing the HMAC-SHA1 hexdigest.
+	// DEPRECATED: Use SignatureHeader256 instead as SHA-1 is considered cryptographically weak.
 	SignatureHeader = "X-Hub-Signature"
 
 	// SignatureHeader256 is the GitHub header containing the HMAC-SHA256 hexdigest.
@@ -57,6 +59,7 @@ func (h *Handler) ValidateSignature(r *http.Request, payload []byte) error {
 
 	signature := r.Header.Get(SignatureHeader)
 	if signature != "" {
+		log.Println("WARNING: Using deprecated SHA-1 signature validation. Configure your webhook to use SHA-256.")
 		return h.validateSignatureSHA1(signature, payload)
 	}
 
@@ -64,6 +67,8 @@ func (h *Handler) ValidateSignature(r *http.Request, payload []byte) error {
 }
 
 // validateSignatureSHA1 validates an HMAC-SHA1 signature.
+// DEPRECATED: GitHub is transitioning away from SHA-1. Use SHA-256 when possible.
+// #nosec G401 - keeping for backward compatibility with GitHub API
 func (h *Handler) validateSignatureSHA1(signature string, payload []byte) error {
 	if !strings.HasPrefix(signature, "sha1=") {
 		return errors.New("invalid signature format")
@@ -115,7 +120,18 @@ func (h *Handler) ProcessWebhook(r *http.Request) (*github.WebhookEvent, error) 
 	if err != nil {
 		return nil, fmt.Errorf("error reading request body: %v", err)
 	}
-	defer r.Body.Close()
+
+	// Use a named return to handle errors from deferred operations
+	var webhookEvent *github.WebhookEvent
+	var retErr error
+
+	// Defer closing the request body
+	defer func() {
+		closeErr := r.Body.Close()
+		if closeErr != nil && retErr == nil {
+			retErr = fmt.Errorf("error closing request body: %v", closeErr)
+		}
+	}()
 
 	// Validate the signature
 	if err := h.ValidateSignature(r, payload); err != nil {
@@ -249,11 +265,12 @@ func (h *Handler) ProcessWebhook(r *http.Request) (*github.WebhookEvent, error) 
 		return nil, fmt.Errorf("error unmarshaling payload: %v", err)
 	}
 
-	return &github.WebhookEvent{
+	webhookEvent = &github.WebhookEvent{
 		Type:       eventType,
 		DeliveryID: deliveryID,
 		Payload:    parsedPayload,
-	}, nil
+	}
+	return webhookEvent, retErr
 }
 
 // HandleWebhook is a convenience method that provides an http.HandlerFunc for processing webhooks.
