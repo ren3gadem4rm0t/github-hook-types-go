@@ -1,7 +1,5 @@
 package github
 
-import "time"
-
 // SecurityAdvisoryPayload represents the webhook payload sent for security_advisory events.
 type SecurityAdvisoryPayload struct {
 	WebhookPayload
@@ -16,8 +14,8 @@ type SecurityAdvisoryPayload struct {
 			Value string `json:"value"`
 		} `json:"identifiers"`
 		References      []string  `json:"references"`
-		PublishedAt     time.Time `json:"published_at"`
-		UpdatedAt       time.Time `json:"updated_at"`
+		PublishedAt     Timestamp `json:"published_at"`
+		UpdatedAt       Timestamp `json:"updated_at"`
 		Vulnerabilities []struct {
 			Package struct {
 				Ecosystem string `json:"ecosystem"`
@@ -45,13 +43,13 @@ type SponsorshipPayload struct {
 	WebhookPayload
 	Sponsorship struct {
 		NodeID       string    `json:"node_id"`
-		CreatedAt    time.Time `json:"created_at"`
+		CreatedAt    Timestamp `json:"created_at"`
 		Sponsor      User      `json:"sponsor"`
 		Sponsorable  User      `json:"sponsorable"`
 		PrivacyLevel string    `json:"privacy_level"`
 		Tier         struct {
 			NodeID                string    `json:"node_id"`
-			CreatedAt             time.Time `json:"created_at"`
+			CreatedAt             Timestamp `json:"created_at"`
 			Description           string    `json:"description"`
 			MonthlyPriceInCents   int       `json:"monthly_price_in_cents"`
 			MonthlyPriceInDollars int       `json:"monthly_price_in_dollars"`
@@ -65,7 +63,7 @@ type SponsorshipPayload struct {
 // StarPayload represents the webhook payload sent for star events.
 type StarPayload struct {
 	WebhookPayload
-	Starred_at *time.Time `json:"starred_at"`
+	Starred_at *Timestamp `json:"starred_at"`
 }
 
 // StatusPayload represents the webhook payload sent for status events.
@@ -79,8 +77,8 @@ type StatusPayload struct {
 	Description string    `json:"description"`
 	State       string    `json:"state"`
 	CommitURL   string    `json:"commit_url"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	CreatedAt   Timestamp `json:"created_at"`
+	UpdatedAt   Timestamp `json:"updated_at"`
 	Branches    []struct {
 		Name   string `json:"name"`
 		Commit struct {
@@ -142,16 +140,16 @@ type WorkflowJobPayload struct {
 		URL         string    `json:"url"`
 		Status      string    `json:"status"`
 		Conclusion  string    `json:"conclusion"`
-		StartedAt   time.Time `json:"started_at"`
-		CompletedAt time.Time `json:"completed_at"`
+		StartedAt   Timestamp `json:"started_at"`
+		CompletedAt Timestamp `json:"completed_at"`
 		Name        string    `json:"name"`
 		Steps       []struct {
 			Name        string    `json:"name"`
 			Status      string    `json:"status"`
 			Conclusion  string    `json:"conclusion"`
 			Number      int       `json:"number"`
-			StartedAt   time.Time `json:"started_at"`
-			CompletedAt time.Time `json:"completed_at"`
+			StartedAt   Timestamp `json:"started_at"`
+			CompletedAt Timestamp `json:"completed_at"`
 		} `json:"steps"`
 		CheckRunURL     string   `json:"check_run_url"`
 		Labels          []string `json:"labels"`
@@ -182,9 +180,9 @@ type WorkflowRunPayload struct {
 		URL                string        `json:"url"`
 		HTMLURL            string        `json:"html_url"`
 		PullRequests       []PullRequest `json:"pull_requests"`
-		CreatedAt          time.Time     `json:"created_at"`
-		UpdatedAt          time.Time     `json:"updated_at"`
-		RunStartedAt       time.Time     `json:"run_started_at"`
+		CreatedAt          Timestamp     `json:"created_at"`
+		UpdatedAt          Timestamp     `json:"updated_at"`
+		RunStartedAt       Timestamp     `json:"run_started_at"`
 		JobsURL            string        `json:"jobs_url"`
 		LogsURL            string        `json:"logs_url"`
 		CheckSuiteURL      string        `json:"check_suite_url"`

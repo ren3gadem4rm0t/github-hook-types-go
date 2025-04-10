@@ -1,7 +1,5 @@
 package github
 
-import "time"
-
 // CommitCommentPayload represents the webhook payload sent for commit_comment events.
 type CommitCommentPayload struct {
 	WebhookPayload
@@ -15,8 +13,8 @@ type CommitCommentPayload struct {
 		Line      *int      `json:"line"`
 		Path      *string   `json:"path"`
 		CommitID  string    `json:"commit_id"`
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
+		CreatedAt Timestamp `json:"created_at"`
+		UpdatedAt Timestamp `json:"updated_at"`
 		Body      string    `json:"body"`
 	} `json:"comment"`
 }
@@ -57,7 +55,7 @@ type DeployKeyPayload struct {
 		Key       string    `json:"key"`
 		URL       string    `json:"url"`
 		Title     string    `json:"title"`
-		CreatedAt time.Time `json:"created_at"`
+		CreatedAt Timestamp `json:"created_at"`
 		Verified  bool      `json:"verified"`
 		ReadOnly  bool      `json:"read_only"`
 	} `json:"key"`
@@ -77,8 +75,8 @@ type DeploymentPayload struct {
 		Environment           string    `json:"environment"`
 		Description           string    `json:"description"`
 		Creator               User      `json:"creator"`
-		CreatedAt             time.Time `json:"created_at"`
-		UpdatedAt             time.Time `json:"updated_at"`
+		CreatedAt             Timestamp `json:"created_at"`
+		UpdatedAt             Timestamp `json:"updated_at"`
 		StatusesURL           string    `json:"statuses_url"`
 		RepositoryURL         string    `json:"repository_url"`
 		TransientEnvironment  bool      `json:"transient_environment"`
@@ -98,8 +96,8 @@ type DeploymentStatusPayload struct {
 		Description    string    `json:"description"`
 		Environment    string    `json:"environment"`
 		TargetURL      string    `json:"target_url"`
-		CreatedAt      time.Time `json:"created_at"`
-		UpdatedAt      time.Time `json:"updated_at"`
+		CreatedAt      Timestamp `json:"created_at"`
+		UpdatedAt      Timestamp `json:"updated_at"`
 		DeploymentURL  string    `json:"deployment_url"`
 		RepositoryURL  string    `json:"repository_url"`
 		LogURL         string    `json:"log_url"`
@@ -116,8 +114,8 @@ type DeploymentStatusPayload struct {
 		Environment           string    `json:"environment"`
 		Description           string    `json:"description"`
 		Creator               User      `json:"creator"`
-		CreatedAt             time.Time `json:"created_at"`
-		UpdatedAt             time.Time `json:"updated_at"`
+		CreatedAt             Timestamp `json:"created_at"`
+		UpdatedAt             Timestamp `json:"updated_at"`
 		StatusesURL           string    `json:"statuses_url"`
 		RepositoryURL         string    `json:"repository_url"`
 		TransientEnvironment  bool      `json:"transient_environment"`
@@ -137,8 +135,8 @@ type DiscussionPayload struct {
 		State             string    `json:"state"`
 		Locked            bool      `json:"locked"`
 		Comments          int       `json:"comments"`
-		CreatedAt         time.Time `json:"created_at"`
-		UpdatedAt         time.Time `json:"updated_at"`
+		CreatedAt         Timestamp `json:"created_at"`
+		UpdatedAt         Timestamp `json:"updated_at"`
 		AuthorAssociation string    `json:"author_association"`
 		ActiveLockReason  *string   `json:"active_lock_reason"`
 		Body              string    `json:"body"`
@@ -151,8 +149,8 @@ type DiscussionPayload struct {
 			Emoji        string    `json:"emoji"`
 			Name         string    `json:"name"`
 			Description  string    `json:"description"`
-			CreatedAt    time.Time `json:"created_at"`
-			UpdatedAt    time.Time `json:"updated_at"`
+			CreatedAt    Timestamp `json:"created_at"`
+			UpdatedAt    Timestamp `json:"updated_at"`
 			IsAnswerable bool      `json:"is_answerable"`
 		} `json:"category"`
 	} `json:"discussion"`
@@ -170,8 +168,8 @@ type DiscussionCommentPayload struct {
 		State             string    `json:"state"`
 		Locked            bool      `json:"locked"`
 		Comments          int       `json:"comments"`
-		CreatedAt         time.Time `json:"created_at"`
-		UpdatedAt         time.Time `json:"updated_at"`
+		CreatedAt         Timestamp `json:"created_at"`
+		UpdatedAt         Timestamp `json:"updated_at"`
 		AuthorAssociation string    `json:"author_association"`
 		ActiveLockReason  *string   `json:"active_lock_reason"`
 		Body              string    `json:"body"`
@@ -184,8 +182,8 @@ type DiscussionCommentPayload struct {
 			Emoji        string    `json:"emoji"`
 			Name         string    `json:"name"`
 			Description  string    `json:"description"`
-			CreatedAt    time.Time `json:"created_at"`
-			UpdatedAt    time.Time `json:"updated_at"`
+			CreatedAt    Timestamp `json:"created_at"`
+			UpdatedAt    Timestamp `json:"updated_at"`
 			IsAnswerable bool      `json:"is_answerable"`
 		} `json:"category"`
 	} `json:"discussion"`
@@ -194,8 +192,8 @@ type DiscussionCommentPayload struct {
 		NodeID            string    `json:"node_id"`
 		DiscussionID      int64     `json:"discussion_id"`
 		User              User      `json:"user"`
-		CreatedAt         time.Time `json:"created_at"`
-		UpdatedAt         time.Time `json:"updated_at"`
+		CreatedAt         Timestamp `json:"created_at"`
+		UpdatedAt         Timestamp `json:"updated_at"`
 		AuthorAssociation string    `json:"author_association"`
 		Body              string    `json:"body"`
 		HTMLURL           string    `json:"html_url"`
@@ -244,8 +242,8 @@ type InstallationPayload struct {
 		AccessTokensURL     string    `json:"access_tokens_url"`
 		RepositoriesURL     string    `json:"repositories_url"`
 		HTMLURL             string    `json:"html_url"`
-		CreatedAt           time.Time `json:"created_at"`
-		UpdatedAt           time.Time `json:"updated_at"`
+		CreatedAt           Timestamp `json:"created_at"`
+		UpdatedAt           Timestamp `json:"updated_at"`
 		Events              []string  `json:"events"`
 		Permissions         struct {
 			Issues       string `json:"issues"`
@@ -272,8 +270,8 @@ type InstallationRepositoriesPayload struct {
 		AccessTokensURL     string    `json:"access_tokens_url"`
 		RepositoriesURL     string    `json:"repositories_url"`
 		HTMLURL             string    `json:"html_url"`
-		CreatedAt           time.Time `json:"created_at"`
-		UpdatedAt           time.Time `json:"updated_at"`
+		CreatedAt           Timestamp `json:"created_at"`
+		UpdatedAt           Timestamp `json:"updated_at"`
 		Events              []string  `json:"events"`
 		Permissions         struct {
 			Issues       string `json:"issues"`
@@ -305,7 +303,7 @@ type MarketplacePurchasePayload struct {
 	MarketplacePurchase struct {
 		Account         User       `json:"account"`
 		BillingCycle    string     `json:"billing_cycle"`
-		NextBillingDate *time.Time `json:"next_billing_date"`
+		NextBillingDate *Timestamp `json:"next_billing_date"`
 		UnitCount       int        `json:"unit_count"`
 		Plan            struct {
 			ID          int64    `json:"id"`
@@ -318,7 +316,7 @@ type MarketplacePurchasePayload struct {
 			Bullets     []string `json:"bullets"`
 		} `json:"plan"`
 		OnFreeTrial     bool       `json:"on_free_trial"`
-		FreeTrialEndsOn *time.Time `json:"free_trial_ends_on"`
+		FreeTrialEndsOn *Timestamp `json:"free_trial_ends_on"`
 		PendingChange   *struct {
 			Plan struct {
 				ID          int64    `json:"id"`
@@ -330,7 +328,7 @@ type MarketplacePurchasePayload struct {
 				UnitName    string   `json:"unit_name"`
 				Bullets     []string `json:"bullets"`
 			} `json:"plan"`
-			EffectiveDate *time.Time `json:"effective_date"`
+			EffectiveDate *Timestamp `json:"effective_date"`
 		} `json:"pending_change"`
 	} `json:"marketplace_purchase"`
 }

@@ -118,6 +118,15 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+### Using with Gin Framework
+
+For applications using the Gin web framework, check out the [Gin webhook example](examples/gin-webhook-server/) which demonstrates:
+
+- Creating logging middleware with Zerolog
+- Setting up webhook signature validation middleware
+- Handling GitHub webhook events in a Gin router
+- Properly parsing and processing webhook payloads
+
 ## Supported Event Types
 
 This library supports all GitHub webhook event types, including:

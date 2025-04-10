@@ -2,7 +2,6 @@ package github
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // MilestonePayload represents the webhook payload sent for milestone events.
@@ -53,8 +52,8 @@ type PackagePayload struct {
 		Name           string    `json:"name"`
 		PackageType    string    `json:"package_type"`
 		HTMLURL        string    `json:"html_url"`
-		CreatedAt      time.Time `json:"created_at"`
-		UpdatedAt      time.Time `json:"updated_at"`
+		CreatedAt      Timestamp `json:"created_at"`
+		UpdatedAt      Timestamp `json:"updated_at"`
 		Owner          User      `json:"owner"`
 		PackageVersion struct {
 			ID           int64     `json:"id"`
@@ -63,8 +62,8 @@ type PackagePayload struct {
 			Body         string    `json:"body"`
 			BodyHTML     string    `json:"body_html"`
 			HTMLURL      string    `json:"html_url"`
-			CreatedAt    time.Time `json:"created_at"`
-			UpdatedAt    time.Time `json:"updated_at"`
+			CreatedAt    Timestamp `json:"created_at"`
+			UpdatedAt    Timestamp `json:"updated_at"`
 			PackageFiles []struct {
 				DownloadURL string    `json:"download_url"`
 				ID          int64     `json:"id"`
@@ -73,8 +72,8 @@ type PackagePayload struct {
 				SHA1        string    `json:"sha1"`
 				MD5         string    `json:"md5"`
 				Size        int       `json:"size"`
-				CreatedAt   time.Time `json:"created_at"`
-				UpdatedAt   time.Time `json:"updated_at"`
+				CreatedAt   Timestamp `json:"created_at"`
+				UpdatedAt   Timestamp `json:"updated_at"`
 			} `json:"package_files"`
 		} `json:"package_version"`
 	} `json:"package"`
@@ -93,8 +92,8 @@ type PageBuildPayload struct {
 		Pusher    User      `json:"pusher"`
 		Commit    string    `json:"commit"`
 		Duration  int       `json:"duration"`
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
+		CreatedAt Timestamp `json:"created_at"`
+		UpdatedAt Timestamp `json:"updated_at"`
 	} `json:"build"`
 }
 
@@ -109,8 +108,8 @@ type ProjectPayload struct {
 		Number     int       `json:"number"`
 		State      string    `json:"state"`
 		HTMLURL    string    `json:"html_url"`
-		CreatedAt  time.Time `json:"created_at"`
-		UpdatedAt  time.Time `json:"updated_at"`
+		CreatedAt  Timestamp `json:"created_at"`
+		UpdatedAt  Timestamp `json:"updated_at"`
 		Creator    User      `json:"creator"`
 		ColumnsURL string    `json:"columns_url"`
 	} `json:"project"`
@@ -128,8 +127,8 @@ type ProjectCardPayload struct {
 		NodeID     string    `json:"node_id"`
 		Note       string    `json:"note"`
 		Creator    User      `json:"creator"`
-		CreatedAt  time.Time `json:"created_at"`
-		UpdatedAt  time.Time `json:"updated_at"`
+		CreatedAt  Timestamp `json:"created_at"`
+		UpdatedAt  Timestamp `json:"updated_at"`
 		ProjectURL string    `json:"project_url"`
 		ColumnURL  string    `json:"column_url"`
 		ContentURL string    `json:"content_url,omitempty"`
@@ -151,8 +150,8 @@ type ProjectColumnPayload struct {
 		Name       string    `json:"name"`
 		ProjectURL string    `json:"project_url"`
 		CardsURL   string    `json:"cards_url"`
-		CreatedAt  time.Time `json:"created_at"`
-		UpdatedAt  time.Time `json:"updated_at"`
+		CreatedAt  Timestamp `json:"created_at"`
+		UpdatedAt  Timestamp `json:"updated_at"`
 	} `json:"project_column"`
 	Changes struct {
 		Name *ChangedFrom `json:"name,omitempty"`
@@ -177,7 +176,7 @@ type PullRequestReviewPayload struct {
 		PullRequestURL    string    `json:"pull_request_url"`
 		State             string    `json:"state"`
 		AuthorAssociation string    `json:"author_association"`
-		SubmittedAt       time.Time `json:"submitted_at"`
+		SubmittedAt       Timestamp `json:"submitted_at"`
 	} `json:"review"`
 	PullRequest PullRequest `json:"pull_request"`
 	Changes     struct {
@@ -198,8 +197,8 @@ type PullRequestReviewCommentPayload struct {
 		OriginalCommitID    string    `json:"original_commit_id"`
 		User                User      `json:"user"`
 		Body                string    `json:"body"`
-		CreatedAt           time.Time `json:"created_at"`
-		UpdatedAt           time.Time `json:"updated_at"`
+		CreatedAt           Timestamp `json:"created_at"`
+		UpdatedAt           Timestamp `json:"updated_at"`
 		HTMLURL             string    `json:"html_url"`
 		PullRequestURL      string    `json:"pull_request_url"`
 		AuthorAssociation   string    `json:"author_association"`
@@ -225,8 +224,8 @@ type ReleasePayload struct {
 		Draft           bool      `json:"draft"`
 		Author          User      `json:"author"`
 		Prerelease      bool      `json:"prerelease"`
-		CreatedAt       time.Time `json:"created_at"`
-		PublishedAt     time.Time `json:"published_at"`
+		CreatedAt       Timestamp `json:"created_at"`
+		PublishedAt     Timestamp `json:"published_at"`
 		AssetsURL       string    `json:"assets_url"`
 		TarballURL      string    `json:"tarball_url"`
 		ZipballURL      string    `json:"zipball_url"`
@@ -243,8 +242,8 @@ type ReleasePayload struct {
 			ContentType        string    `json:"content_type"`
 			Size               int       `json:"size"`
 			DownloadCount      int       `json:"download_count"`
-			CreatedAt          time.Time `json:"created_at"`
-			UpdatedAt          time.Time `json:"updated_at"`
+			CreatedAt          Timestamp `json:"created_at"`
+			UpdatedAt          Timestamp `json:"updated_at"`
 			Uploader           User      `json:"uploader"`
 		} `json:"assets"`
 	} `json:"release"`
@@ -283,7 +282,7 @@ type RepositoryVulnerabilityAlertPayload struct {
 		ExternalReference   string     `json:"external_reference"`
 		ExternalIdentifier  string     `json:"external_identifier"`
 		FixedIn             string     `json:"fixed_in"`
-		DismissedAt         *time.Time `json:"dismissed_at"`
+		DismissedAt         *Timestamp `json:"dismissed_at"`
 		DismissedBy         *User      `json:"dismissed_by"`
 		DismissedReason     string     `json:"dismissed_reason"`
 		GhsaID              string     `json:"ghsa_id"`

@@ -17,7 +17,7 @@ func main() {
 	handler := webhook.NewHandler(secret)
 
 	// Set up a webhook handler endpoint
-	http.HandleFunc("/webhook", handler.HandleWebhook(handleGitHubEvent))
+	http.HandleFunc("/api/webhook/github", handler.HandleWebhook(handleGitHubEvent))
 
 	// Start the server
 	port := os.Getenv("PORT")

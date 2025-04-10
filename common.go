@@ -53,9 +53,9 @@ type Repository struct {
 	LabelsURL        string    `json:"labels_url"`
 	ReleasesURL      string    `json:"releases_url"`
 	DeploymentsURL   string    `json:"deployments_url"`
-	CreatedAt        time.Time `json:"created_at"`
-	UpdatedAt        time.Time `json:"updated_at"`
-	PushedAt         time.Time `json:"pushed_at"`
+	CreatedAt        Timestamp `json:"created_at"`
+	UpdatedAt        Timestamp `json:"updated_at"`
+	PushedAt         Timestamp `json:"pushed_at"`
 	GitURL           string    `json:"git_url"`
 	SSHURL           string    `json:"ssh_url"`
 	CloneURL         string    `json:"clone_url"`
@@ -151,9 +151,18 @@ type Timestamp struct {
 // UnmarshalJSON implements the json.Unmarshaler interface.
 // Time formats in GitHub webhooks can vary, so this handles those cases.
 func (t *Timestamp) UnmarshalJSON(data []byte) error {
+	// First, try to parse as a numeric timestamp (epoch seconds)
+	var timestamp int64
+	if err := json.Unmarshal(data, &timestamp); err == nil {
+		t.Time = time.Unix(timestamp, 0)
+		return nil
+	}
+
+	// Next, try to parse as a string timestamp
 	var s string
 	if err := json.Unmarshal(data, &s); err != nil {
-		return err
+		// Neither numeric nor string - return nil since we can't parse this
+		return nil
 	}
 
 	// GitHub uses multiple time formats in their API
@@ -171,13 +180,6 @@ func (t *Timestamp) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// If we got here, none of the formats worked
-	// Try to parse as a numeric timestamp
-	var timestamp int64
-	if err := json.Unmarshal(data, &timestamp); err == nil {
-		t.Time = time.Unix(timestamp, 0)
-		return nil
-	}
-
+	// If we get here, we couldn't parse the string with any known format
 	return nil
 }

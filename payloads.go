@@ -1,7 +1,5 @@
 package github
 
-import "time"
-
 // PingPayload represents the webhook payload sent for a ping event.
 type PingPayload struct {
 	WebhookPayload
@@ -49,7 +47,7 @@ type Commit struct {
 	TreeID    string       `json:"tree_id"`
 	Distinct  bool         `json:"distinct"`
 	Message   string       `json:"message"`
-	Timestamp time.Time    `json:"timestamp"`
+	Timestamp Timestamp    `json:"timestamp"`
 	URL       string       `json:"url"`
 	Author    CommitAuthor `json:"author"`
 	Committer CommitAuthor `json:"committer"`
@@ -105,9 +103,9 @@ type Issue struct {
 		DiffURL  string `json:"diff_url"`
 		PatchURL string `json:"patch_url"`
 	} `json:"pull_request,omitempty"`
-	ClosedAt          *time.Time `json:"closed_at"`
-	CreatedAt         time.Time  `json:"created_at"`
-	UpdatedAt         time.Time  `json:"updated_at"`
+	ClosedAt          *Timestamp `json:"closed_at"`
+	CreatedAt         Timestamp  `json:"created_at"`
+	UpdatedAt         Timestamp  `json:"updated_at"`
 	AuthorAssociation string     `json:"author_association"`
 }
 
@@ -136,10 +134,10 @@ type Milestone struct {
 	Creator      User       `json:"creator"`
 	OpenIssues   int        `json:"open_issues"`
 	ClosedIssues int        `json:"closed_issues"`
-	CreatedAt    time.Time  `json:"created_at"`
-	UpdatedAt    time.Time  `json:"updated_at"`
-	ClosedAt     *time.Time `json:"closed_at"`
-	DueOn        *time.Time `json:"due_on"`
+	CreatedAt    Timestamp  `json:"created_at"`
+	UpdatedAt    Timestamp  `json:"updated_at"`
+	ClosedAt     *Timestamp `json:"closed_at"`
+	DueOn        *Timestamp `json:"due_on"`
 }
 
 // ChangedFrom represents a changed value in a webhook payload.
@@ -165,8 +163,8 @@ type Comment struct {
 	HTMLURL               string    `json:"html_url"`
 	Body                  string    `json:"body"`
 	User                  User      `json:"user"`
-	CreatedAt             time.Time `json:"created_at"`
-	UpdatedAt             time.Time `json:"updated_at"`
+	CreatedAt             Timestamp `json:"created_at"`
+	UpdatedAt             Timestamp `json:"updated_at"`
 	IssueURL              string    `json:"issue_url,omitempty"`
 	AuthorAssociation     string    `json:"author_association"`
 	PerformedViaGitHubApp *struct {
@@ -210,10 +208,10 @@ type PullRequest struct {
 	Locked              bool              `json:"locked"`
 	Title               string            `json:"title"`
 	Body                string            `json:"body"`
-	CreatedAt           time.Time         `json:"created_at"`
-	UpdatedAt           time.Time         `json:"updated_at"`
-	ClosedAt            *time.Time        `json:"closed_at"`
-	MergedAt            *time.Time        `json:"merged_at"`
+	CreatedAt           Timestamp         `json:"created_at"`
+	UpdatedAt           Timestamp         `json:"updated_at"`
+	ClosedAt            *Timestamp        `json:"closed_at"`
+	MergedAt            *Timestamp        `json:"merged_at"`
 	MergeCommitSHA      *string           `json:"merge_commit_sha"`
 	Assignee            *User             `json:"assignee"`
 	Assignees           []User            `json:"assignees"`
@@ -281,8 +279,8 @@ type CheckRun struct {
 	DetailsURL  string     `json:"details_url"`
 	Status      string     `json:"status"`
 	Conclusion  *string    `json:"conclusion"`
-	StartedAt   time.Time  `json:"started_at"`
-	CompletedAt *time.Time `json:"completed_at"`
+	StartedAt   Timestamp  `json:"started_at"`
+	CompletedAt *Timestamp `json:"completed_at"`
 	Output      struct {
 		Title            string `json:"title"`
 		Summary          string `json:"summary"`
@@ -310,11 +308,11 @@ type CheckRun struct {
 			Description string    `json:"description"`
 			ExternalURL string    `json:"external_url"`
 			HTMLURL     string    `json:"html_url"`
-			CreatedAt   time.Time `json:"created_at"`
-			UpdatedAt   time.Time `json:"updated_at"`
+			CreatedAt   Timestamp `json:"created_at"`
+			UpdatedAt   Timestamp `json:"updated_at"`
 		} `json:"app"`
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
+		CreatedAt Timestamp `json:"created_at"`
+		UpdatedAt Timestamp `json:"updated_at"`
 	} `json:"check_suite"`
 	App struct {
 		ID          int64     `json:"id"`
@@ -324,8 +322,8 @@ type CheckRun struct {
 		Description string    `json:"description"`
 		ExternalURL string    `json:"external_url"`
 		HTMLURL     string    `json:"html_url"`
-		CreatedAt   time.Time `json:"created_at"`
-		UpdatedAt   time.Time `json:"updated_at"`
+		CreatedAt   Timestamp `json:"created_at"`
+		UpdatedAt   Timestamp `json:"updated_at"`
 	} `json:"app"`
 	PullRequests []PullRequest `json:"pull_requests"`
 }
@@ -352,10 +350,10 @@ type CheckSuitePayload struct {
 			Description string    `json:"description"`
 			ExternalURL string    `json:"external_url"`
 			HTMLURL     string    `json:"html_url"`
-			CreatedAt   time.Time `json:"created_at"`
-			UpdatedAt   time.Time `json:"updated_at"`
+			CreatedAt   Timestamp `json:"created_at"`
+			UpdatedAt   Timestamp `json:"updated_at"`
 		} `json:"app"`
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
+		CreatedAt Timestamp `json:"created_at"`
+		UpdatedAt Timestamp `json:"updated_at"`
 	} `json:"check_suite"`
 }
