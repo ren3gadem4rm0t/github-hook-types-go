@@ -49,6 +49,7 @@ const (
 	PullRequestReviewCommentEvent     WebhookEventType = "pull_request_review_comment"
 	PushEvent                         WebhookEventType = "push"
 	ReleaseEvent                      WebhookEventType = "release"
+	RegistryPackageEvent              WebhookEventType = "registry_package"
 	RepositoryDispatchEvent           WebhookEventType = "repository_dispatch"
 	RepositoryEvent                   WebhookEventType = "repository"
 	RepositoryImportEvent             WebhookEventType = "repository_import"
@@ -188,6 +189,8 @@ func ParseWebhook(r *http.Request) (*WebhookEvent, error) {
 		payload = new(PushPayload)
 	case ReleaseEvent:
 		payload = new(ReleasePayload)
+	case RegistryPackageEvent:
+		payload = new(RegistryPackagePayload)
 	case RepositoryDispatchEvent:
 		payload = new(RepositoryDispatchPayload)
 	case RepositoryEvent:

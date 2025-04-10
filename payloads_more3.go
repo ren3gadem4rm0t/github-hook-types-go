@@ -1,5 +1,7 @@
 package github
 
+import "encoding/json"
+
 // SecurityAdvisoryPayload represents the webhook payload sent for security_advisory events.
 type SecurityAdvisoryPayload struct {
 	WebhookPayload
@@ -13,9 +15,9 @@ type SecurityAdvisoryPayload struct {
 			Type  string `json:"type"`
 			Value string `json:"value"`
 		} `json:"identifiers"`
-		References      []string  `json:"references"`
-		PublishedAt     Timestamp `json:"published_at"`
-		UpdatedAt       Timestamp `json:"updated_at"`
+		References      json.RawMessage `json:"references"`
+		PublishedAt     Timestamp       `json:"published_at"`
+		UpdatedAt       Timestamp       `json:"updated_at"`
 		Vulnerabilities []struct {
 			Package struct {
 				Ecosystem string `json:"ecosystem"`
@@ -195,4 +197,29 @@ type WorkflowRunPayload struct {
 		Repository         Repository    `json:"repository"`
 		HeadRepository     Repository    `json:"head_repository"`
 	} `json:"workflow_run"`
+}
+
+// RegistryPackagePayload represents the webhook payload sent for registry_package events.
+type RegistryPackagePayload struct {
+	WebhookPayload
+	RegistryPackage struct {
+		ID             int64     `json:"id"`
+		Name           string    `json:"name"`
+		PackageType    string    `json:"package_type"`
+		HTMLURL        string    `json:"html_url"`
+		CreatedAt      Timestamp `json:"created_at"`
+		UpdatedAt      Timestamp `json:"updated_at"`
+		Owner          User      `json:"owner"`
+		PackageVersion struct {
+			ID              int64             `json:"id"`
+			Version         string            `json:"version"`
+			Summary         string            `json:"summary"`
+			Description     string            `json:"description"`
+			CreatedAt       Timestamp         `json:"created_at"`
+			UpdatedAt       Timestamp         `json:"updated_at"`
+			HTMLURL         string            `json:"html_url"`
+			PackageFiles    []json.RawMessage `json:"package_files,omitempty"`
+			ReleaseMetadata json.RawMessage   `json:"metadata,omitempty"`
+		} `json:"package_version"`
+	} `json:"registry_package"`
 }

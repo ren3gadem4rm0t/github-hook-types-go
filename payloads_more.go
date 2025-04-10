@@ -1,5 +1,9 @@
 package github
 
+import (
+	"encoding/json"
+)
+
 // CommitCommentPayload represents the webhook payload sent for commit_comment events.
 type CommitCommentPayload struct {
 	WebhookPayload
@@ -65,22 +69,22 @@ type DeployKeyPayload struct {
 type DeploymentPayload struct {
 	WebhookPayload
 	Deployment struct {
-		URL                   string    `json:"url"`
-		ID                    int64     `json:"id"`
-		NodeID                string    `json:"node_id"`
-		SHA                   string    `json:"sha"`
-		Ref                   string    `json:"ref"`
-		Task                  string    `json:"task"`
-		Payload               string    `json:"payload"`
-		Environment           string    `json:"environment"`
-		Description           string    `json:"description"`
-		Creator               User      `json:"creator"`
-		CreatedAt             Timestamp `json:"created_at"`
-		UpdatedAt             Timestamp `json:"updated_at"`
-		StatusesURL           string    `json:"statuses_url"`
-		RepositoryURL         string    `json:"repository_url"`
-		TransientEnvironment  bool      `json:"transient_environment"`
-		ProductionEnvironment bool      `json:"production_environment"`
+		URL                   string          `json:"url"`
+		ID                    int64           `json:"id"`
+		NodeID                string          `json:"node_id"`
+		SHA                   string          `json:"sha"`
+		Ref                   string          `json:"ref"`
+		Task                  string          `json:"task"`
+		Payload               json.RawMessage `json:"payload"`
+		Environment           string          `json:"environment"`
+		Description           string          `json:"description"`
+		Creator               User            `json:"creator"`
+		CreatedAt             Timestamp       `json:"created_at"`
+		UpdatedAt             Timestamp       `json:"updated_at"`
+		StatusesURL           string          `json:"statuses_url"`
+		RepositoryURL         string          `json:"repository_url"`
+		TransientEnvironment  bool            `json:"transient_environment"`
+		ProductionEnvironment bool            `json:"production_environment"`
 	} `json:"deployment"`
 }
 
@@ -104,22 +108,22 @@ type DeploymentStatusPayload struct {
 		EnvironmentURL string    `json:"environment_url"`
 	} `json:"deployment_status"`
 	Deployment struct {
-		URL                   string    `json:"url"`
-		ID                    int64     `json:"id"`
-		NodeID                string    `json:"node_id"`
-		SHA                   string    `json:"sha"`
-		Ref                   string    `json:"ref"`
-		Task                  string    `json:"task"`
-		Payload               string    `json:"payload"`
-		Environment           string    `json:"environment"`
-		Description           string    `json:"description"`
-		Creator               User      `json:"creator"`
-		CreatedAt             Timestamp `json:"created_at"`
-		UpdatedAt             Timestamp `json:"updated_at"`
-		StatusesURL           string    `json:"statuses_url"`
-		RepositoryURL         string    `json:"repository_url"`
-		TransientEnvironment  bool      `json:"transient_environment"`
-		ProductionEnvironment bool      `json:"production_environment"`
+		URL                   string          `json:"url"`
+		ID                    int64           `json:"id"`
+		NodeID                string          `json:"node_id"`
+		SHA                   string          `json:"sha"`
+		Ref                   string          `json:"ref"`
+		Task                  string          `json:"task"`
+		Payload               json.RawMessage `json:"payload"`
+		Environment           string          `json:"environment"`
+		Description           string          `json:"description"`
+		Creator               User            `json:"creator"`
+		CreatedAt             Timestamp       `json:"created_at"`
+		UpdatedAt             Timestamp       `json:"updated_at"`
+		StatusesURL           string          `json:"statuses_url"`
+		RepositoryURL         string          `json:"repository_url"`
+		TransientEnvironment  bool            `json:"transient_environment"`
+		ProductionEnvironment bool            `json:"production_environment"`
 	} `json:"deployment"`
 }
 
