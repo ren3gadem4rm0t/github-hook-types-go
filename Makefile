@@ -1,5 +1,5 @@
 APP_NAME := github-hook-types-go
-VERSION  := 0.1.1
+VERSION  := 0.0.0
 
 SHELL := /bin/bash
 
