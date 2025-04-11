@@ -1,13 +1,25 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+
 version: 2
 project_name: github-hook-types-go
 release:
   github:
     owner: ren3gadem4rm0t
     name: github-hook-types-go
+  mode: append
+  header: |
+    ## GITHUB HOOK TYPES GO ({{ .Date }}) ({{ .Version }})
+
+    This release includes the following changes:
+
+    - {{ range . }}
+      - {{ . }}
+      {{ end }}
+
 builds:
   - skip: true
 archives:
-  - format: tar.gz
+  - formats: ["zip"]
     files:
       - LICENSE
       - README.md
@@ -18,5 +30,7 @@ changelog:
     exclude:
       - "^Merge pull request"
       - "^Merge branch"
+      - "^docs:"
+      - "^test:"
 checksum:
   name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
