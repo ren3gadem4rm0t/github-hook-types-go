@@ -6,11 +6,11 @@ import "encoding/json"
 type SecurityAdvisoryPayload struct {
 	WebhookPayload
 	SecurityAdvisory struct {
-		GHSAID      string   `json:"ghsa_id"`
-		CVEID       []string `json:"cve_id"`
-		Summary     string   `json:"summary"`
-		Description string   `json:"description"`
-		Severity    string   `json:"severity"`
+		GHSAID      string `json:"ghsa_id"`
+		CVEID       string `json:"cve_id"`
+		Summary     string `json:"summary"`
+		Description string `json:"description"`
+		Severity    string `json:"severity"`
 		Identifiers []struct {
 			Type  string `json:"type"`
 			Value string `json:"value"`
