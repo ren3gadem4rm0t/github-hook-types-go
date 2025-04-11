@@ -8,13 +8,7 @@ release:
     name: github-hook-types-go
   mode: append
   header: |
-    ## GITHUB HOOK TYPES GO ({{ .Date }}) ({{ .Version }})
-
-    This release includes the following changes:
-
-    - {{ range . }}
-      - {{ . }}
-      {{ end }}
+    ## GITHUB HOOK TYPES GO v{{ .Version }}
 
 builds:
   - skip: true
